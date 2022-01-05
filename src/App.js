@@ -23,6 +23,7 @@ class App extends React.Component {
     this.setState({ error: ""});
     } catch(err) {
       this.setState({ error: err});
+      this.setState({ locationObj: []});
   }
   }
 
