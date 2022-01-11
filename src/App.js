@@ -12,20 +12,19 @@ class App extends React.Component {
     this.state = {
       locationObj: [],
       weatherObj: [],
-      error: ""
-    } 
+      error: ''
+    }
   }
 
   getLocationObj = async (searchedCity) => {
     try {
-    const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${searchedCity}&format=json`;
-    const response = await axios.get(url);
-    this.setState({ locationObj: response.data });
-    this.setState({ error: ""});
-    } catch(err) {
-      this.setState({ error: err});
-      this.setState({ locationObj: []});
-  }
+      const url = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATION_KEY}&q=${searchedCity}&format=json`;
+      const response = await axios.get(url);
+      this.setState({ locationObj: response.data });
+      this.setState({ error: '' })
+    } catch (err) {
+      this.setState({ error: err.response.status + ': ' + err.response.data.error });
+    }
   }
 
   getForecastObj = async (locationObj, searchedCity) => {
@@ -40,18 +39,19 @@ class App extends React.Component {
   }
 
   clearWeatherObj = () => this.setState({ weatherObj: [] });
-  
+
   render() {
     const appStyle = {
       minHeight: '100vh',
+      minWidth: '100vw',
       backgroundColor: 'ivory'
     }
     const alertStyle = {
-      paddingTop: '3rem'
+      marginTop: '3rem'
     }
     return (
       <Container style={appStyle} className="App">
-        <SearchBar getLocationObj={this.getLocationObj}getForecastObj={this.getForecastObj} locationObj={this.state.locationObj} clearWeatherObj={this.clearWeatherObj} />
+        <SearchBar getLocationObj={this.getLocationObj} getForecastObj={this.getForecastObj} locationObj={this.state.locationObj} clearWeatherObj={this.clearWeatherObj} />
         {this.state.error &&
           <Alert style={alertStyle} variant='warning'>
             {this.state.error}

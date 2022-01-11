@@ -2,7 +2,6 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
-
 class Weather extends React.Component {
   render() {
     const filteredData = this.props.weatherObj.filter(obj => obj.lat === this.props.lat && obj.lon === this.props.lon)
